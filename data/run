@@ -1,0 +1,2 @@
+ python3 preprocessing.py --l lessPrimeiroTurno.csv --m morePrimeiroTurno.csv --save_l less_.csv --save_m more_.csv
+
