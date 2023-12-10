@@ -63,7 +63,7 @@ class Classifier(nn.Module):
       train_accuracy, _ = self.evaluate(train_loader)
       test_accuracy, _ = self.evaluate(test_loader)
 
-      print(f"Epoch {epoch+1}/{num_epochs} Train Loss: {average_train_loss:.4f} ({train_accuracy}) | Test Loss: {average_test_loss} ({test_accuracy:.2f})")
+      print(f"Epoch {epoch+1}/{num_epochs} Train Loss: {average_train_loss} ({train_accuracy:.4f}) | Test Loss: {average_test_loss} ({test_accuracy:.4f})")
 
     torch.save(self.state_dict(), outpath)
     return train_losses, test_losses
