@@ -99,16 +99,18 @@ class SimpleDataset(Dataset):
     self.tokenizer = tokenizer
     self.model = model.to(self.device)
 
-    self.docs = self.__get_docs()
+    self.users = self.__get_docs()
+    for idx, (texts, label) in self.users.items():
+       encoded_input = self.__get_encoded_input(texts)
+       encoded_label = self.__get_encoded_label(label)
+
+       self.users[idx] = (encoded_input, encoded_label)
 
   def __len__(self):
-    return len(self.docs)
+    return len(self.users)
 
   def __getitem__(self, idx):
-    inputs, label = self.docs[idx]
-
-    encoded_input = self.__get_encoded_input(inputs)
-    encoded_label = self.__get_encoded_label(label)
+    encoded_input, encoded_label = self.users[idx]
 
     return encoded_input, encoded_label
 
