@@ -23,6 +23,10 @@ import pandas as pd
 import re
 import emoji
 
+import nltk
+nltk.download('punkt')
+nltk.download('stopwords')
+
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 
@@ -88,9 +92,9 @@ if __name__ == "__main__":
      "retweet_count": int
   }
 
-  less_df = pd.read_csv(input_file_less, delimiter=';', skiprows=0, dtype=dtype)
+  less_df = pd.read_csv(input_file_less, delimiter=';', skiprows=0)
 
-  more_df = pd.read_csv(input_file_more, delimiter=';', skiprows=0, dtype=dtype)
+  more_df = pd.read_csv(input_file_more, delimiter=';', skiprows=0)
 
   print("LESS")
   print(f"Tamanho máximo de tweet no DataFrame: {less_df['tweet'].str.len().max()}")

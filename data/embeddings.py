@@ -11,7 +11,7 @@ import pandas as pd
 class Embeddings():
     def __init__(self, model, tokenizer):
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
-        self.model = AutoModelForPreTraining.from_pretrained(model)
+        self.model = AutoModelForPreTraining.from_pretrained(model).to(self.device)
         self.tokenizer = AutoTokenizer.from_pretrained(tokenizer, do_lower_case=False)
     
     def generateEmbeddings(self, sample, padding=False): #semple is a dictinary(key: author_id, value: list of tweets)

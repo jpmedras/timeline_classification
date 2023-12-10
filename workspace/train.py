@@ -2,7 +2,7 @@ from transformers import AutoTokenizer  # Or BertTokenizer
 from transformers import AutoModelForPreTraining  # Or BertForPreTraining for loading pretraining heads
 
 from model import Classifier
-from dataset import ClassificationDataset
+from dataset import SimpleDataset
 
 import torch
 from torch.utils.data import DataLoader
@@ -15,10 +15,10 @@ import matplotlib.pyplot as plt
 
 tokenizer = AutoTokenizer.from_pretrained('neuralmind/bert-base-portuguese-cased', do_lower_case=False).encode
 model = AutoModelForPreTraining.from_pretrained('neuralmind/bert-base-portuguese-cased')
-dataset = ClassificationDataset('../data/', tokenizer, model)
+dataset = SimpleDataset('../data/', tokenizer, model)
 
 lengths = [0.8, 0.2]
-batch_size = 1
+batch_size = 16
 
 train_set, test_set = random_split(dataset, lengths, Generator().manual_seed(4))
 
@@ -35,7 +35,7 @@ params = {
 
 model = Classifier(**params)
 
-num_epochs = 2
+num_epochs = 20
 
 fit_params = {
     'train_loader': train_loader,

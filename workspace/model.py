@@ -55,7 +55,7 @@ class Classifier(nn.Module):
         total_loss += loss.item()
 
       average_train_loss = total_loss / len(train_loader)
-      average_test_loss = self.__calc_loss(model=self, dataloader=test_loader, loss_function=loss_function)
+      average_test_loss = self.__calc_loss(dataloader=test_loader, loss_function=loss_function)
 
       train_losses.append(average_train_loss)
       test_losses.append(average_test_loss)
@@ -63,11 +63,11 @@ class Classifier(nn.Module):
       train_accuracy, _ = self.evaluate(train_loader)
       test_accuracy, _ = self.evaluate(test_loader)
 
-      print(f"Epoch {epoch+1}/{num_epochs} Train Loss: {average_train_loss} ({train_accuracy}) | Test Loss: {average_test_loss} ({test_accuracy})")
+      print(f"Epoch {epoch+1}/{num_epochs} Train Loss: {average_train_loss:.4f} ({train_accuracy}) | Test Loss: {average_test_loss} ({test_accuracy:.2f})")
 
     torch.save(self.state_dict(), outpath)
     return train_losses, test_losses
-  
+
   def __calc_loss(self, dataloader, loss_function):
     with torch.no_grad():
         total_loss = 0.0

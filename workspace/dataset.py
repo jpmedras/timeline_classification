@@ -29,8 +29,8 @@ class ClassificationDataset(Dataset):
   def __get_docs(self):
     docs = {}
 
-    for f in os.listdir(self.data_path + '/' + 'less'):
-        file_path = self.data_path + '/' 'less' + '/' + f
+    for f in os.listdir(self.data_path + 'less'):
+        file_path = self.data_path + 'less' + '/' + f
 
         idx = int(f[10:f.find('.csv')])
         docs[idx] = ([], 0)
@@ -46,10 +46,10 @@ class ClassificationDataset(Dataset):
                 except Exception as e:
                     print(e)
 
-    for f in os.listdir(self.data_path + '/' + 'more'):
-        file_path = self.data_path + '/' 'more' + '/' + f
+    for f in os.listdir(self.data_path + 'more'):
+        file_path = self.data_path + 'more' + '/' + f
 
-        idx = f[10:f.find('.csv')]
+        idx = int(f[10:f.find('.csv')])
         docs[idx] = ([], 1)
 
         with open(file_path, 'r', encoding='utf-8') as d:
@@ -135,7 +135,7 @@ class SimpleDataset(Dataset):
     for f in os.listdir(self.data_path + '/' + 'more'):
         file_path = self.data_path + '/' 'more' + '/' + f
 
-        idx = f[10:f.find('.csv')]
+        idx = int(f[10:f.find('.csv')])
         docs[idx] = ([], 1)
 
         with open(file_path, 'r', encoding='utf-8') as d:
@@ -154,10 +154,12 @@ class SimpleDataset(Dataset):
   def __get_encoded_input(self, docs):
 
     doc = ' '.join(docs)
-    encoded_doc = self.tokenizer(doc, return_tensors='pt').to(self.device)[:-512]
+    encoded_doc = self.tokenizer(doc, return_tensors='pt').to(self.device)
+
+    encoded_doc = encoded_doc[:, min(-512, encoded_doc.shape[1]):]
 
     with torch.no_grad():
-        embedded_doc = self.model(encoded_doc)[0][0, 1:-1]
+      embedded_doc = self.model(encoded_doc)[0][0, 1:-1]
 
     pooled_doc = torch.mean(embedded_doc, dim=0)
 
