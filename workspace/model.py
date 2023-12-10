@@ -18,10 +18,13 @@ class Classifier(nn.Module):
 
   def forward(self,x):
     out = self.fc1(x)
+    out = torch.nn.functional.relu(out)
     out = self.dropout(out)
     out = self.fc2(out)
+    out = torch.nn.functional.relu(out)
     out = self.dropout(out)
     out = self.fc3(out)
+    out = torch.nn.functional.relu(out)
     out = self.dropout(out)
     out = self.fc4(out)
 
